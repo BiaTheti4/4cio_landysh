@@ -10,7 +10,7 @@
           </router-link>
         </div>
         <div class="header_main_menu">
-          <router-link to="/">Главная</router-link>
+
           <router-link to="/about">О ПРЕМИИ</router-link>
           <router-link to="/">НОМИНАЦИИ</router-link>
           <router-link to="/">КАНДИДАТЫ</router-link>
@@ -23,40 +23,45 @@
         </div>
       </div>
     </div>
-
     <router-view class="main_view"></router-view>
+    <Footer class="main_view"/>
   </div>
 </template>
 
 <script>
+import 'typeface-ubuntu-mono';
+import 'typeface-source-code-pro';
+import 'typeface-nunito-sans'
+import Footer from './components/Footer.vue';
 
 
 export default {
   name: 'App',
-  components: {}
+  components: {
+    Footer,
+  }
 }
 </script>
 
 <style>
 #app {
   background: #fff;
-
-  font-family: Ubuntu Mono, sans-serif;
+  font-family: 'Ubuntu Mono', monospace;
   font-weight: 400;
   height: 100%;
   line-height: 100%;
-  margin: 0;
+  margin: 0 auto;
   overflow-x: hidden;
   padding: 0;
   display: flex;
   flex-direction: column;
-
+  max-width: 1440px;
 }
 
 .header {
   padding-top: 8px;
-  padding-left: 31px;
-  padding-right: 31px;
+
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,19 +123,36 @@ export default {
   padding-right: 32px;
 
 }
-.header_main_login a{
+
+.header_main_login a {
   text-decoration: none;
   color: black;
 
 }
 
-.main_view {
 
-  flex-grow: 1;
-  max-width: 1440px;
+.divider {
+  height: 1px;
+  background-color: #040718;
   width: 100%;
-  padding: 0 32px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 20px;
+}
+@media screen and (max-width: 1440px) {
+  #app{
+    /*margin: auto 31px; */
+    padding: 0 31px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #app{
+    /*margin: auto 31px; */
+    padding: 0 20px;
+  }
+}
+@media screen and (max-width: 620px) {
+  #app{
+    /*margin: auto 31px; */
+    padding: 0 20px;
+  }
 }
 </style>
