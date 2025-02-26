@@ -1,7 +1,65 @@
 <script>
 import 'typeface-nunito-sans'
+
 export default {
-  name: 'Home'
+  name: 'Home',
+
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  data() {
+    return {
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
+      isMenuOpen: false,
+      date: new Date(),
+      isNomineesExpanded: false,
+    }
+  },
+  computed: {
+    currentDate() {
+      return new Date();
+    },
+    isNominationActive() {
+      const start = new Date('2025-02-17');
+      const end = new Date('2025-03-07');
+      return this.currentDate >= start && this.currentDate <= end;
+    },
+    isVotingActive() {
+      const start = new Date('2025-03-08');
+      const end = new Date('2025-04-09');
+      return this.currentDate >= start && this.currentDate <= end;
+    },
+    isResultsActive() {
+      const start = new Date('2025-04-10');
+      const end = new Date('2025-04-14');
+      return this.currentDate >= start && this.currentDate <= end;
+    },
+    progressPercentage() {
+
+      const totalStart = new Date('2025-02-17');
+      const totalEnd = new Date('2025-04-14');
+      const totalDuration = totalEnd - totalStart;
+      const elapsed = this.currentDate - totalStart;
+      const percentage = Math.min(Math.max((elapsed / totalDuration) * 100, 0), 100);
+      return Math.round(percentage);
+    },
+
+  },
+  methods: {
+
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+      this.windowHeight = window.innerHeight;
+    },
+    changeExpandNominees() {
+      this.isNomineesExpanded = !this.isNomineesExpanded;
+    }
+  }
+
 };
 </script>
 
@@ -13,6 +71,7 @@ export default {
         <span class="home_text_gray">Отмечаем талант, профессионализм и вклад</span>
         <span class="home_text_gray">в развитие технологий</span>
       </div>
+
     </div>
     <div class="content_container">
       <div class="green_block">
@@ -28,21 +87,29 @@ export default {
 
       <div class="progress_block">
 
-        <div class="progress_block_content">
-
+        <div v-if="windowWidth>620" class="progress_block_content">
           <div class="progress_block_buttons">
-            <div class="progress_buttons_active">Выдвижение</div>
-            <div class="progress_buttons">Голосование</div>
-            <div class="progress_buttons">Итоги</div>
+            <div :class="{ 'progress_buttons_active': isNominationActive, 'progress_buttons': !isNominationActive }">
+              Выдвижение
+            </div>
+            <div :class="{ 'progress_buttons_active': isVotingActive, 'progress_buttons': !isVotingActive }">
+              Голосование
+            </div>
+            <div :class="{ 'progress_buttons_active': isResultsActive, 'progress_buttons': !isResultsActive }">Итоги
+            </div>
           </div>
 
           <div class="progress_date_block">
-            <div class="progress_date">17 февраля – 7 марта</div>
-            <div class="progress_date">8 марта – 9 апреля</div>
-            <div class="progress_date">10 апреля – 14 апреля</div>
+            <div class="progress_date">17 февраля – <br v-if="windowWidth>1000 && windowWidth<1073 ||windowWidth<661">7
+              марта
+            </div>
+            <div class="progress_date">8 марта – <br v-if="windowWidth>1000 && windowWidth<1073||windowWidth<661">9
+              апреля
+            </div>
+            <div class="progress_date">10 апреля – <br v-if="windowWidth>1000 && windowWidth<1073||windowWidth<661">14
+              апреля
+            </div>
           </div>
-
-          <!--полоски на прогресс-баре (даты)-->
           <div class="progress_date_line">
             <div class="progress_line"></div>
             <div class="progress_line"></div>
@@ -51,14 +118,52 @@ export default {
 
           <div class="progress_bar_block">
             <div class="progress_bar_off"></div>
-            <div class="progress_bar_on"></div>
+            <div class="progress_bar_on" :style="{ width: progressPercentage + '%' }"></div>
           </div>
 
           <div class="progress_bar_text">
             <span>прогресс премии</span>
-            <span> 10%</span>
+            <span> {{ progressPercentage }}%</span>
           </div>
         </div>
+        <div v-else class="progress_block_content">
+          <div class="progress_block_buttons">
+            <div v-if="isNominationActive" class="progress_buttons_active">
+              Выдвижение
+            </div>
+            <div v-if="isVotingActive" class="progress_buttons_active">
+              Голосование
+            </div>
+            <div v-if="isResultsActive" class="progress_buttons_active">
+              Итоги
+            </div>
+          </div>
+
+          <div class="progress_date_block">
+            <div v-if="isNominationActive" class="progress_date">17 февраля – >7 марта
+            </div>
+            <div v-if="isVotingActive" class="progress_date">8 марта – 9 апреля
+            </div>
+            <div v-if="isResultsActive" class="progress_date">10 апреля – 14 апреля
+            </div>
+          </div>
+          <div class="progress_date_line">
+            <div v-if="isNominationActive" class="progress_line"></div>
+            <div v-if="isVotingActive" class="progress_line"></div>
+            <div v-if="isResultsActive" class="progress_line"></div>
+          </div>
+
+          <div class="progress_bar_block">
+            <div class="progress_bar_off"></div>
+            <div class="progress_bar_on" :style="{ width: progressPercentage + '%' }"></div>
+          </div>
+
+          <div class="progress_bar_text">
+            <span>прогресс премии</span>
+            <span> {{ progressPercentage }}%</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -68,7 +173,8 @@ export default {
         <span class="nominees_text_block_2">Подробнее</span>
       </div>
     </div>
-    <div class="nominees_content_block">
+    <!--    номинации пк версия 1000+-->
+    <div class="nominees_content_block" v-if="windowWidth>=1000">
       <div class="nominees_content_row">
         <div class="nominees_cell_block">
           <div class="nominees_icon_place">
@@ -157,6 +263,211 @@ export default {
         </div>
       </div>
     </div>
+    <!--    номинации планшет версия 620-1000-->
+    <div class="nominees_content_block" v-if="windowWidth<1000 && windowWidth>=620">
+      <!--      1 строка-->
+      <div class="nominees_content_row">
+        <!--        ИТ-женщина 2025-->
+        <div class="nominees_cell_block">
+          <div class="nominees_icon_place">
+            <img src="/1_1.png" alt="ИТ-Женщина 2025">
+          </div>
+          <div class="nominees_name">ИТ-Женщина 2025</div>
+          <div class="nominees_description">
+            <span>Главная номинация премии, награждающая выдающихся женщин в ИТ за значительный вклад в индустрию.</span>
+          </div>
+        </div>
+        <!--        пустой блок-->
+        <div class="nominees_cell_block">
+          <div class="nominees_icon_place">
+
+          </div>
+          <div class="nominees_name"></div>
+          <div class="nominees_description"></div>
+        </div>
+      </div>
+      <!--      2 строка-->
+      <div class="nominees_content_row">
+        <!--        Инновации в талантах-->
+
+        <div class="nominees_cell_block">
+          <div class="divider"></div>
+          <div class="nominees_icon_place">
+            <img src="/1_3.png" alt="Инновации в талантах">
+          </div>
+          <div class="nominees_name">Инновации в талантах</div>
+          <div class="nominees_description">
+            <span>Для лидеров, создающих уникальные методы поиска, обучения и развития ИТ-специалистов.</span>
+          </div>
+        </div>
+        <div class="nominees_cell_block">
+          <div class="divider"></div>
+          <div class="nominees_icon_place">
+            <img src="/2_1.png" alt="ИТ в продвижении и продажах">
+          </div>
+          <div class="nominees_name">ИТ в продвижении и продажах</div>
+          <div class="nominees_description">
+            <span>Награда для тех, кто развивает бизнес с ИТ-решениями в маркетинге и продажах.</span>
+          </div>
+        </div>
+
+      </div>
+      <!--      3 строка-->
+      <div class="nominees_content_row">
+        <!--        пустой-->
+        <div class="nominees_cell_block">
+          <div class="nominees_icon_place">
+
+          </div>
+          <div class="nominees_name"></div>
+          <div class="nominees_description"></div>
+        </div>
+        <!--        технология 2025-->
+        <div class="nominees_cell_block">
+          <div class="divider"></div>
+          <div class="nominees_icon_place">
+            <img src="/2_2.png" alt="Технология 2025">
+          </div>
+          <div class="nominees_name">Технология 2025</div>
+          <div class="nominees_description">
+            <span>Признание инновационных решений, разработанных и внедренных женщинами в ИТ в этом году.</span>
+          </div>
+        </div>
+
+      </div>
+      <!--      4 строка-->
+      <div class="nominees_content_row">
+        <!--        импортозамещение 2025-->
+        <div class="nominees_cell_block">
+          <div class="divider"></div>
+          <div class="nominees_icon_place">
+            <img src="/3_1.png" alt="Импортозамещение 2025">
+          </div>
+          <div class="nominees_name">Импортозамещение 2025</div>
+          <div class="nominees_description">
+            <span>Отмечает ИТ-инициативы для развития отечественных технологий и снижения зависимости от зарубежных решений.</span>
+          </div>
+        </div>
+        <!--        инновации в ИТ-->
+        <div class="nominees_cell_block">
+          <div class="divider"></div>
+          <div class="nominees_icon_place">
+            <img src="/3_2.png" alt="Инновации в ИТ">
+          </div>
+          <div class="nominees_name">Инновации в ИТ</div>
+          <div class="nominees_description">
+            <span>Награда для женщин, создающих новые технологические продукты и нестандартные решения в сфере ИТ.</span>
+          </div>
+        </div>
+      </div>
+
+      <!--      5 строка-->
+      <div class="nominees_content_row">
+        <!--        Волшебница финансов-->
+        <div class="nominees_cell_block">
+          <div class="divider"></div>
+          <div class="nominees_icon_place">
+            <img src="/3_3.png" alt="Волшебница финансов">
+          </div>
+          <div class="nominees_name">Волшебница финансов</div>
+          <div class="nominees_description">
+            <span>Создающим инновационные финтех-решения и успешно управляющим финансами в ИТ.</span>
+          </div>
+        </div>
+        <!--        пустая-->
+        <div class="nominees_cell_block">
+          <!-- Пустая ячейка -->
+          <div class="nominees_icon_place"></div>
+          <div class="nominees_name"></div>
+          <div class="nominees_description"></div>
+        </div>
+      </div>
+
+    </div>
+    <!--    номинации мобилка <620-->
+    <div class="nominees_content_block" v-if="windowWidth<620">
+      <div class="nominees_content_column">
+
+        <div class="nominees_cell_block">
+          <div class="nominees_icon_place">
+            <img src="/1_1.png" alt="ИТ-Женщина 2025">
+          </div>
+          <div class="nominees_name">ИТ-Женщина 2025</div>
+          <div class="nominees_description">
+            <span>Главная номинация премии, награждающая выдающихся женщин в ИТ за значительный вклад в индустрию.</span>
+          </div>
+        </div>
+        <div class="nominees_cell_block">
+          <div class="divider"></div>
+          <div class="nominees_icon_place">
+            <img src="/1_3.png" alt="Инновации в талантах">
+          </div>
+          <div class="nominees_name">Инновации в талантах</div>
+          <div class="nominees_description">
+            <span>Для лидеров, создающих уникальные методы поиска, обучения и развития ИТ-специалистов.</span>
+          </div>
+        </div>
+        <div class="nominees_cell_block">
+          <div class="divider"></div>
+          <div class="nominees_icon_place">
+            <img src="/2_1.png" alt="ИТ в продвижении и продажах">
+          </div>
+          <div class="nominees_name">ИТ в продвижении и продажах</div>
+          <div class="nominees_description">
+            <span>Награда для тех, кто развивает бизнес с ИТ-решениями в маркетинге и продажах.</span>
+          </div>
+        </div>
+        <div class="button_class">
+          <button class="expand_button" v-if="!isNomineesExpanded" @click="changeExpandNominees()">
+            <img alt="plus" src="/Plus.png" class="plus_img"> <span>Показать все</span>
+          </button>
+        </div>
+        <div v-if="isNomineesExpanded">
+          <div class="nominees_cell_block">
+            <div class="divider"></div>
+            <div class="nominees_icon_place">
+              <img src="/2_2.png" alt="Технология 2025">
+            </div>
+            <div class="nominees_name">Технология 2025</div>
+            <div class="nominees_description">
+              <span>Признание инновационных решений, разработанных и внедренных женщинами в ИТ в этом году.</span>
+            </div>
+          </div>
+          <div class="nominees_cell_block">
+            <div class="divider"></div>
+            <div class="nominees_icon_place">
+              <img src="/3_1.png" alt="Импортозамещение 2025">
+            </div>
+            <div class="nominees_name">Импортозамещение 2025</div>
+            <div class="nominees_description">
+              <span>Отмечает ИТ-инициативы для развития отечественных технологий и снижения зависимости от зарубежных решений.</span>
+            </div>
+          </div>
+          <div class="nominees_cell_block">
+            <div class="divider"></div>
+            <div class="nominees_icon_place">
+              <img src="/3_2.png" alt="Инновации в ИТ">
+            </div>
+            <div class="nominees_name">Инновации в ИТ</div>
+            <div class="nominees_description">
+              <span>Награда для женщин, создающих новые технологические продукты и нестандартные решения в сфере ИТ.</span>
+            </div>
+          </div>
+          <div class="nominees_cell_block">
+            <div class="divider"></div>
+            <div class="nominees_icon_place">
+              <img src="/3_3.png" alt="Волшебница финансов">
+            </div>
+            <div class="nominees_name">Волшебница финансов</div>
+            <div class="nominees_description">
+              <span>Создающим инновационные финтех-решения и успешно управляющим финансами в ИТ.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <div class="candidates_block_name">
       <div class="candidates_text">
         <span class="candidates_text_block_1">Кандидаты</span>
@@ -442,7 +753,6 @@ export default {
   display: flex;
   gap: 12px;
   margin-bottom: 8px;
-
 }
 
 .progress_date {
@@ -820,4 +1130,192 @@ export default {
   align-items: flex-end;
 }
 
+@media screen and (max-width: 1440px) {
+  .content_container {
+    display: flex;
+    gap: 30px;
+  }
+
+  .green_block {
+    width: 100%;
+    max-width: 450px;
+
+  }
+
+  .progress_block {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .banner_text {
+
+    font-size: 28px;
+    line-height: 30px;
+  }
+
+  .content_container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .green_block {
+    width: 100%;
+    max-width: none;
+
+  }
+
+  .progress_block {
+    width: 100%
+  }
+
+  .nominees_block_name {
+    margin-left: 0;
+  }
+
+  .nominees_content_row {
+    gap: 20px;
+    margin: 0;
+  }
+
+  .nominees_content_block {
+    display: flex;
+    gap: 24px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .banner_text {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+
+  .banner_text {
+
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    padding: 0 24px;
+  }
+
+  .green_block_container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .green_block_container_text {
+    letter-spacing: -1.5px;
+  }
+
+  .nominees_text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nominees_text_block_1 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 53px;
+  }
+
+  .nominees_text_block_2 {
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 22px;
+  }
+
+  .nominees_content_column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .nominees_cell_block {
+    padding: 0 24px 24px;
+  }
+
+  .button_class {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+  }
+
+  .expand_button {
+    width: 143px;
+    height: 34px;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 100px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    color: #689B32;
+    font-size: 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .plus_img {
+    height: 10px;
+    width: 10px;
+  }
+
+  .expand_button span {
+    font-family: 'Ubuntu Mono', monospace;
+    color: #040718;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .nominees_content_block {
+    margin-bottom: 64px;
+  }
+
+  .candidates_block_name {
+    margin-left: 0;
+  }
+
+  .candidates_text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .candidates_text_block_1 {
+    font-family: 'Source Code Pro', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 53px;
+
+
+  }
+
+  .candidates_text_block_2 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+
+  }
+  .progress_date {
+    justify-content: flex-start;
+  }
+  .progress_line {
+    border-right: transparent;
+    border-left: #CECED3 dashed 2px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    height: 32px;
+  }
+}
 </style>

@@ -12,17 +12,22 @@
         <div class="header_main_menu">
 
           <router-link to="/about">О ПРЕМИИ</router-link>
-          <router-link to="/">НОМИНАЦИИ</router-link>
-          <router-link to="/">КАНДИДАТЫ</router-link>
-          <router-link to="/">ЛАУРЕАТЫ</router-link>
-          <router-link to="/">НОВОСТИ</router-link>
-          <router-link to="/">КОНТАКТЫ</router-link>
+          <router-link to="/nominations">НОМИНАЦИИ</router-link>
+          <router-link to="/nominees">КАНДИДАТЫ</router-link>
+          <router-link to="/laureates">ЛАУРЕАТЫ</router-link>
+          <router-link to="/news">НОВОСТИ</router-link>
+          <router-link to="/contacts">КОНТАКТЫ</router-link>
         </div>
         <div class="header_main_login">
-          <router-link to="/">ВОЙТИ</router-link>
+          <router-link to="/login">ВОЙТИ</router-link>
+        </div>
+
+        <div class="header_menu">
+          <span @click="toggleMenu()">Меню</span>
         </div>
       </div>
     </div>
+
     <router-view class="main_view"></router-view>
     <Footer class="main_view"/>
   </div>
@@ -39,8 +44,38 @@ export default {
   name: 'App',
   components: {
     Footer,
+  },
+  computed: {},
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  data() {
+    return {
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
+      isMenuOpen: false,
+    }
+  },
+  methods: {
+    test() {
+      console.log(this.windowWidth);
+    },
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+      this.windowHeight = window.innerHeight;
+    },
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen; // Переключаем состояние
+      console.log('Меню открыто:', this.isMenuOpen);
+    }
   }
+
 }
+
+
 </script>
 
 <style>
@@ -60,8 +95,6 @@ export default {
 
 .header {
   padding-top: 8px;
-
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,6 +151,11 @@ export default {
   color: black;
 }
 
+.header_menu {
+  font-size: 16px;
+  padding-right: 32px;
+}
+
 .header_main_login {
   font-size: 16px;
   padding-right: 32px;
@@ -137,22 +175,53 @@ export default {
   width: 100%;
   margin-bottom: 20px;
 }
+
+.header_menu {
+  display: none;
+}
+
 @media screen and (max-width: 1440px) {
-  #app{
+  #app {
     /*margin: auto 31px; */
     padding: 0 31px;
   }
 }
+
+@media screen and (max-width: 1000px) {
+  .header_main_menu {
+    display: none;
+  }
+
+  .header_main_login {
+    display: none;
+  }
+
+  .header_menu {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 768px) {
-  #app{
+  #app {
     /*margin: auto 31px; */
     padding: 0 20px;
   }
 }
+
 @media screen and (max-width: 620px) {
-  #app{
+  #app {
     /*margin: auto 31px; */
     padding: 0 20px;
+  }
+  .header_main_logo{
+    padding-left: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .header_menu{
+    padding-right: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 }
 </style>

@@ -5,9 +5,11 @@ export default {
 </script>
 
 <template>
-  <div>
-    <h1>О нас</h1>
-    <p>Это страница "О нас".</p>
+  <div class="about_page">
+    <div class="about_page">
+
+    </div>
+
   </div>
 </template>
 
