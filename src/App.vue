@@ -38,7 +38,7 @@ import 'typeface-ubuntu-mono';
 import 'typeface-source-code-pro';
 import 'typeface-nunito-sans'
 import Footer from './components/Footer.vue';
-
+import 'swiper/swiper-bundle.css';
 
 export default {
   name: 'App',
@@ -79,6 +79,9 @@ export default {
 </script>
 
 <style>
+h1{
+  margin: 0;
+}
 #app {
   background: #fff;
   font-family: 'Ubuntu Mono', monospace;
@@ -222,6 +225,9 @@ export default {
     padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
+  }
+  .main_view{
+    margin-bottom: 96px;
   }
 }
 </style>

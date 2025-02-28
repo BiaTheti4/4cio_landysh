@@ -24,22 +24,24 @@ export default {
           </div>
         </div>
       </div>
-      <div class="second_block">
-        <div class="text_block">
-          <span>О премии</span>
-          <span>Номинации</span>
-          <span>Кандидаты</span>
-          <span>Лауреаты</span>
-          <span>Новости</span>
-          <span>Контакты</span>
+      <div class="footer_text_block">
+        <div class="second_block">
+          <div class="text_block">
+            <span>О премии</span>
+            <span>Номинации</span>
+            <span>Кандидаты</span>
+            <span>Лауреаты</span>
+            <span>Новости</span>
+            <span>Контакты</span>
+          </div>
         </div>
-      </div>
-      <div class="third_block">
-        <div class="text_block">
-          <span>Телеграм</span>
-          <span>Чат в телеграм</span>
-          <span>Вконтакте</span>
-          <span>YouTube</span>
+        <div class="third_block">
+          <div class="text_block">
+            <span>Телеграм</span>
+            <span>Чат в телеграм</span>
+            <span>Вконтакте</span>
+            <span>YouTube</span>
+          </div>
         </div>
       </div>
       <div class="fourth_block">
@@ -55,13 +57,10 @@ export default {
     </div>
 
 
-
-
-
-  <div class="footer_second_block">
-    <span>Политика конфидицеальности</span>
-    <span>© 2025 Клуб 4CIO</span>
-  </div>
+    <div class="footer_second_block">
+      <span>Политика конфидицеальности</span>
+      <span>© 2025 Клуб 4CIO</span>
+    </div>
   </div>
 </template>
 
@@ -77,10 +76,7 @@ export default {
   justify-content: space-between;
   margin-bottom: 60px;
   padding: 32px 0;
-
 }
-
-
 
 .name_with_logo {
   display: flex;
@@ -103,7 +99,8 @@ export default {
   font-size: 16px;
   line-height: 20px;
 }
-.text_block{
+
+.text_block {
   font-family: 'Ubuntu Mono', monospace;
   font-size: 16px;
   line-height: 20px;
@@ -111,7 +108,7 @@ export default {
   flex-direction: column;
 }
 
-.footer_green_block{
+.footer_green_block {
   width: 260px;
   height: 120px;
   padding: 24px;
@@ -121,29 +118,84 @@ export default {
   justify-content: flex-start;
   align-items: flex-end;
 }
-.footer_green_content{
+
+.footer_green_content {
   justify-content: space-between;
   display: flex;
   flex-direction: row;
-  width:100%
+  width: 100%
 
 }
-.footer_green_content span{
+
+.footer_green_content span {
   color: white;
   text-transform: uppercase;
   display: flex;
   align-items: flex-end;
 }
-.green_block_img{
+
+.green_block_img {
   width: 29px;
   height: 29px;
   display: flex;
   align-items: flex-end;
 }
-.footer_second_block{
+
+.footer_second_block {
   display: flex;
   justify-content: space-between;
   border-top: 1px solid #040718;
   padding: 21px 32px;
+}
+
+.footer_text_block {
+  display: flex;
+  gap: 162px;
+}
+
+@media screen and (max-width: 1100px) {
+  .footer_text_block {
+    display: flex;
+    gap: 74px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .footer_text_block {
+    display: flex;
+    gap: 36px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .footer_text_block {
+    gap: 12px;
+  }
+
+  .footer_first_block {
+    flex-wrap: wrap;
+  }
+
+  .first_block {
+    margin-bottom: 20px;
+  }
+
+  .footer_text_block {
+    margin-bottom: 24px;
+  }
+}
+
+@media screen and (max-width: 496px) {
+  .footer_green_block {
+    width: 100%;
+  }
+  .footer_second_block{
+
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+
+
+  }
 }
 </style>

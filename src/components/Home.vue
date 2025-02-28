@@ -489,7 +489,7 @@ export default {
             <img src="/arrow.svg" alt="SVG icon" class="candidate-arrow"/>
           </div>
         </div>
-        <div class="candidate_cell_block">
+        <div class="candidate_cell_block display_none_2">
           <div class="candidate_photo">
             <img src="/candidate.png" alt="Виктория Морозова">
           </div>
@@ -502,7 +502,7 @@ export default {
             <img src="/arrow.svg" alt="SVG icon" class="candidate-arrow"/>
           </div>
         </div>
-        <div class="candidate_cell_block">
+        <div class="candidate_cell_block display_none">
           <div class="candidate_photo">
             <img src="/candidate.png" alt="Виктория Морозова">
           </div>
@@ -517,7 +517,7 @@ export default {
         </div>
       </div>
       <div class="candidates_content_row">
-        <div class="candidate_cell_block">
+        <div class="candidate_cell_block display_none_2">
           <div class="candidate_photo">
             <img src="/candidate.png" alt="Виктория Морозова">
           </div>
@@ -543,7 +543,7 @@ export default {
             <img src="/arrow.svg" alt="SVG icon" class="candidate-arrow"/>
           </div>
         </div>
-        <div class="candidate_cell_block">
+        <div class="candidate_cell_block display_none">
           <div class="candidate_photo">
             <img src="/candidate.png" alt="Виктория Морозова">
           </div>
@@ -1185,10 +1185,42 @@ export default {
   }
 }
 
+@media screen and (max-width: 850px) {
+  .display_none {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .banner_text {
     font-size: 24px;
     line-height: 30px;
+  }
+
+}
+
+@media screen and (max-width: 660px) {
+  .news_content_row_1 {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+  }
+
+  .news_content_row_2 {
+    display: none;
+  }
+
+  .first {
+    border: 1px solid #040718;
+    border-left: transparent;
+  }
+
+  .second {
+    border: 1px solid #040718;
+    border-top: transparent;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
   }
 }
 
@@ -1306,9 +1338,11 @@ export default {
     text-align: center;
 
   }
+
   .progress_date {
     justify-content: flex-start;
   }
+
   .progress_line {
     border-right: transparent;
     border-left: #CECED3 dashed 2px;
@@ -1317,5 +1351,56 @@ export default {
     justify-content: flex-end;
     height: 32px;
   }
+
+  .candidates_text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .candidates_text_block_1 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 53px;
+  }
+
+  .candidates_text_block_2 {
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 22px;
+  }
+
+  .news_text_block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .news_text_block_1 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 53px;
+  }
+
+  .news_text_block_2 {
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 22px;
+  }
+
+
+}
+
+@media screen and (max-width: 562px) {
+  .display_none_2 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .display_none_2 {
+    display: none;
+  }
+
 }
 </style>

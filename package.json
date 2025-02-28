@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "swiper": "^6.8.4",
     "typeface-nunito-sans": "^1.1.13",
     "typeface-roboto": "^1.1.13",
     "typeface-source-code-pro": "^1.1.13",
